@@ -1,0 +1,40 @@
+.TH ALQUITRAN 1
+.SH NAME
+alquitran \- check tar archive for portability
+.SH SYNOPSIS
+\fBalquitran\fR [archive]
+.SH USAGE NOTE
+Prints portability issues based on POSIX 2017 ustar definition and
+interpretation of common tar implementations to standard error. If an
+issue is found, exit code 1 is returned.
+
+.SH EXIT STATUS
+.TP
+\fB0\fR
+Successful program execution.
+
+.TP
+\fB1\fR
+Unsuccessful program execution.
+
+.TP
+\fB101\fR
+The program panicked.
+.SH EXAMPLES
+.TP
+read uncompressed archive.tar file
+\fB$ alquitran archive.tar\fR
+.br
+No issues found.
+.TP
+read tar archive from standard input
+\fB$ xzcat archive.tar.xz | alquitran\fR
+.br
+No issues found.
+
+.SH AUTHOR
+.P
+.RS 2
+.nf
+Samanta Navarro <ferivoz@riseup.net>
+

@@ -110,15 +110,14 @@ pub fn lint_string_field(bytes: &[u8]) -> LintResult<Vec<u8>> {
             chars.push(b);
         }
     }
-    let value;
-    if !eos {
+    let value = if !eos {
         if !bytes.is_empty() {
             issues.push((Issue::UnterminatedString, bytes.len() - 1));
         }
-        value = None;
+        None
     } else {
-        value = Some(chars);
-    }
+        Some(chars)
+    };
     LintResult {
         value,
         hints,

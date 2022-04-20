@@ -146,7 +146,7 @@ impl LintHeader {
          * be interpreted just like POSIX 2017 ustar archives there is
          * no good reason to complain.
          */
-        if self.bytes[MAGIC_RANGE.start..VERSION_RANGE.end] == b"ustar\000"[..] {
+        if self.bytes[MAGIC_RANGE.start..VERSION_RANGE.end] == b"ustar\x0000"[..] {
             if self.typeflag == b'g' || self.typeflag == b'x' {
                 self.format = Format::Pax;
             } else {
@@ -328,12 +328,11 @@ fn normalize(path: String) -> String {
             .trim_end_matches('/')
             .trim_end_matches("/."),
     );
-    let mut normalized;
-    if reduced.is_empty() && !path.is_empty() {
-        normalized = String::from(&path[0..1]);
+    let mut normalized = if reduced.is_empty() && !path.is_empty() {
+        String::from(&path[0..1])
     } else {
-        normalized = reduced;
-    }
+        reduced
+    };
     if !normalized.starts_with('/') && path.ends_with('/') {
         normalized.push('/');
     }

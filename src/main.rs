@@ -11,18 +11,17 @@ use std::process::exit;
 
 fn main() -> Result<()> {
     let args: Vec<String> = env::args().collect();
-    let mut archive;
     if args.len() > 2 {
         eprintln!("usage: alquitran [file.tar]");
         exit(1);
     }
-    if args.len() < 2 {
-        archive = Archive::new(Box::new(io::stdin()));
+    let mut archive = if args.len() < 2 {
+        Archive::new(Box::new(io::stdin()))
     } else {
         let file = File::open(&args[1])?;
         let reader = BufReader::with_capacity(512, file);
-        archive = Archive::new(Box::new(reader));
-    }
+        Archive::new(Box::new(reader))
+    };
     let result = archive.lint()?;
 
     match &result.dump {
@@ -75,12 +74,11 @@ fn eprint_bytes(bytes: &[u8], marks: &[u8], offset: usize) {
         for b in 0..16 {
             let pos = n * 16 + b;
             let u = bytes[pos];
-            let c;
-            if (32..128).contains(&u) {
-                c = u as char;
+            let c = if (32..128).contains(&u) {
+                u as char
             } else {
-                c = '.';
-            }
+                '.'
+            };
             if marks[pos] == 0 {
                 eprint!("{}", c);
             } else if marks[pos] == 1 {

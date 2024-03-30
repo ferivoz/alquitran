@@ -201,7 +201,7 @@ impl Archive {
         }
         let mut eof = Vec::new();
         self.reader.read_to_end(&mut eof)?;
-        if eof.iter().find(|&&b| b != 0) != None {
+        if eof.iter().any(|&b| b != 0) {
             result.issues.insert(Issue::TrailingByteNotNul);
         }
         Ok(result)

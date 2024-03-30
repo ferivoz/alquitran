@@ -130,9 +130,9 @@ fn is_octal_digit(c: u8) -> bool {
 }
 
 fn is_portable_char(c: u8) -> bool {
-    (b'A'..=b'Z').contains(&c)
-        || (b'a'..=b'z').contains(&c)
-        || (b'0'..=b'9').contains(&c)
+    c.is_ascii_uppercase()
+        || c.is_ascii_lowercase()
+        || c.is_ascii_digit()
         || c == b'.'
         || c == b'_'
         || c == b'-'

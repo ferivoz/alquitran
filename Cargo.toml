@@ -1,7 +1,7 @@
 [package]
 authors = ["Samanta Navarro <ferivoz@riseup.net>"]
 description = "Analysis tool for tar archives"
-edition = "2021"
+edition = "2024"
 homepage = "https://github.com/ferivoz/alquitran"
 keywords = ["pax", "tar", "ustar"]
 license = "MIT"

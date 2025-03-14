@@ -1,6 +1,6 @@
 use alquitran::archive::Archive;
-use alquitran::header::Format;
 use alquitran::header::BLOCK_SIZE;
+use alquitran::header::Format;
 use alquitran::issues::eprint_issues;
 use std::env;
 use std::fs::File;

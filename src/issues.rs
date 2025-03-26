@@ -38,6 +38,17 @@ pub enum Issue {
     UnterminatedNumber,
     UnterminatedString,
     UnusedByteNotNul,
+    PaxHeaderSizeOctal,
+    PaxHeaderSizeTooLarge,
+    PaxHeaderSizeInvalid,
+    PaxGlobalHeader,
+    PaxEmpty,
+    PaxHeaderNoNewline,
+    PaxHeaderNoEqualSign,
+    PaxHeaderKeywordBlank,
+    PaxHeaderKeywordEmpty,
+    PaxHeaderKeywordDuplicate,
+    PaxHeaderKeywordNoUtf8,
 }
 
 pub fn eprint_issues(issues: &BTreeSet<Issue>) {
@@ -73,6 +84,19 @@ pub fn eprint_issues(issues: &BTreeSet<Issue>) {
             Issue::UnterminatedNumber => "Number field has no terminating character.",
             Issue::UnterminatedString => "String field has no terminating character.",
             Issue::UnusedByteNotNul => "Unused byte(s) not nul.",
+            Issue::PaxHeaderSizeOctal => "Pax header size starts with zero",
+            Issue::PaxHeaderSizeTooLarge => "Pax header size is too large.",
+            Issue::PaxHeaderSizeInvalid => "Pax header size is invalid.",
+            Issue::PaxGlobalHeader => "Pax global headers are interpreted too differently.",
+            Issue::PaxEmpty => "Pax extended header is empty.",
+            Issue::PaxHeaderNoNewline => "Pax header does not end with newline.",
+            Issue::PaxHeaderNoEqualSign => "Pax header does not contain an equal sign.",
+            Issue::PaxHeaderKeywordBlank => "Pax header keyword starts with a blank.",
+            Issue::PaxHeaderKeywordEmpty => "Pax header keyword is empty.",
+            Issue::PaxHeaderKeywordDuplicate => {
+                "Same pax header keyword encountered multiple times."
+            }
+            Issue::PaxHeaderKeywordNoUtf8 => "Pax header keyword is not UTF-8.",
         };
         eprintln!("=> {}", message);
     }

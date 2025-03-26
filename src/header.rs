@@ -135,6 +135,11 @@ impl LintHeader {
             self.typeflag = b'0';
         }
 
+        if self.typeflag == b'g' {
+            self.marks[TYPEFLAG_RANGE.start] |= ERROR;
+            self.issues.insert(Issue::PaxGlobalHeader);
+        }
+
         if self.typeflag == 0 {
             self.typeflag = b'0';
         }

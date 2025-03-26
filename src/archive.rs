@@ -5,6 +5,7 @@ use crate::issues::Hint;
 use crate::issues::Issue;
 use crate::lint::ERROR;
 use crate::lint::lint_nul_field;
+use crate::pax::LintPaxExtendedHeader;
 use std::collections::BTreeSet;
 use std::io::Read;
 use std::io::Result;
@@ -131,19 +132,13 @@ impl Archive {
                     let offset: usize = (header.size % BLOCK_SIZE as u64) as usize;
                     if copy {
                         xheader.append(&mut data[0..offset].to_vec());
+                        let pheader = LintPaxExtendedHeader::new(xheader.clone());
+                        if let Some(i) = pheader.issues.into_iter().next() {
+                            result.insert(header, header_offset);
+                            result.issues.insert(i);
+                            return Ok(result);
+                        }
                     }
-                    let size = xheader.windows(b"size".len()).position(|w| w == b"size");
-                    if let Some(_x) = size {
-                        result.insert(header, header_offset);
-                        result.issues.insert(Issue::PaxSize);
-                        return Ok(result);
-                    };
-                    let path = xheader.windows(b"path".len()).position(|w| w == b"path");
-                    if let Some(_x) = path {
-                        result.insert(header, header_offset);
-                        result.issues.insert(Issue::PaxPath);
-                        return Ok(result);
-                    };
                     i += 1;
                     if offset != 0 && data[offset..BLOCK_SIZE].iter().any(|&x| x != 0) {
                         let mut dump = Dump {

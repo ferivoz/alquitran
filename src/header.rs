@@ -1,12 +1,12 @@
 use crate::issues::Hint;
 use crate::issues::Issue;
+use crate::lint::ERROR;
+use crate::lint::LintResult;
+use crate::lint::WARNING;
 use crate::lint::lint_nul_field;
 use crate::lint::lint_number_field;
 use crate::lint::lint_path_field;
 use crate::lint::lint_string_field;
-use crate::lint::LintResult;
-use crate::lint::ERROR;
-use crate::lint::WARNING;
 use core::ops::Range;
 use std::collections::BTreeSet;
 

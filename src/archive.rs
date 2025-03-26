@@ -1,10 +1,10 @@
+use crate::header::BLOCK_SIZE;
 use crate::header::Format;
 use crate::header::LintHeader;
-use crate::header::BLOCK_SIZE;
 use crate::issues::Hint;
 use crate::issues::Issue;
-use crate::lint::lint_nul_field;
 use crate::lint::ERROR;
+use crate::lint::lint_nul_field;
 use std::collections::BTreeSet;
 use std::io::Read;
 use std::io::Result;

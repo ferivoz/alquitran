@@ -1,6 +1,6 @@
 use alquitran::archive::Archive;
-use alquitran::header::Format;
 use alquitran::header::BLOCK_SIZE;
+use alquitran::header::Format;
 use alquitran::issues::eprint_issues;
 use std::env;
 use std::fs::File;
@@ -24,11 +24,8 @@ fn main() -> Result<()> {
     };
     let result = archive.lint()?;
 
-    match &result.dump {
-        Some(d) => {
-            eprint_bytes(&d.bytes, &d.marks, d.offset);
-        }
-        None => {}
+    if let Some(d) = &result.dump {
+        eprint_bytes(&d.bytes, &d.marks, d.offset);
     }
     eprint_issues(&result.issues);
     for path in result.duplicated_paths.iter() {
